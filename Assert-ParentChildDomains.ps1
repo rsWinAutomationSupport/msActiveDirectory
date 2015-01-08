@@ -9,7 +9,7 @@ $userCred = New-Object System.Management.Automation.PSCredential ("sva-dscdom\Ad
 configuration AssertParentChildDomains
 {
 
-    Import-DscResource -ModuleName xActiveDirectory
+    Import-DscResource -ModuleName msActiveDirectory
 
     Node $AllNodes.Where{$_.Role -eq "Parent DC"}.Nodename
     {
@@ -19,7 +19,7 @@ configuration AssertParentChildDomains
             Name = "AD-Domain-Services"
         }
 
-        xADDomain FirstDS
+        msADDomain FirstDS
         {
             DomainName = $Node.DomainName
             DomainAdministratorCredential = $domaincred
@@ -28,23 +28,23 @@ configuration AssertParentChildDomains
             DependsOn = "[WindowsFeature]ADDSInstall"
         }
 
-        xWaitForADDomain DscForestWait
+        msWaitForADDomain DscForestWait
         {
             DomainName = $Node.DomainName
             DomainUserCredential = $domaincred
 	    RetryCount = $Node.RetryCount
             RetryIntervalSec = $Node.RetryIntervalSec
-            DependsOn = "[xADDomain]FirstDS"
+            DependsOn = "[msADDomain]FirstDS"
         }
 
-        xADUser FirstUser
+        msADUser FirstUser
         {
             DomainName = $Node.DomainName
             DomainAdministratorCredential = $domaincred
             UserName = "dummy"
             Password = $userCred
             Ensure = "Present"
-            DependsOn = "[xWaitForADDomain]DscForestWait"
+            DependsOn = "[msWaitForADDomain]DscForestWait"
         }
 
     }
@@ -57,7 +57,7 @@ configuration AssertParentChildDomains
             Name = "AD-Domain-Services"
         }
 
-        xWaitForADDomain DscForestWait
+        msWaitForADDomain DscForestWait
         {
             DomainName = $Node.ParentDomainName
             DomainUserCredential = $domaincred
@@ -66,13 +66,13 @@ configuration AssertParentChildDomains
             DependsOn = "[WindowsFeature]ADDSInstall"
         }
 
-        xADDomain ChildDS
+        msADDomain ChildDS
         {
             DomainName = $Node.DomainName
             ParentDomainName = $Node.ParentDomainName
             DomainAdministratorCredential = $domaincred
             SafemodeAdministratorPassword = $safemodeAdministratorCred
-            DependsOn = "[xWaitForADDomain]DscForestWait"
+            DependsOn = "[msWaitForADDomain]DscForestWait"
         }
     }
 }
