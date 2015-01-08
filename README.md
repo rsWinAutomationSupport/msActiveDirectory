@@ -1,7 +1,7 @@
 msActiveDirectory
 =================
 
-Updated to Microsoft module v2.2
+Updated to Microsoft module v2.2<br/>
 Note that class names have been renamed from 'x' to 'ms'
 
 Usage:
