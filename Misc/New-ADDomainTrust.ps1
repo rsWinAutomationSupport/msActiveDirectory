@@ -1,4 +1,4 @@
-﻿$Properties = @{
+$Properties = @{
                 SourceDomain    = New-xDscResourceProperty -Name SourceDomainName -Type String -Attribute Key `
                                                            -Description 'Name of the AD domain that is requesting the trust'
                 TargetDomain    = New-xDscResourceProperty -Name TargetDomainName -Type String -Attribute Key `
@@ -13,4 +13,4 @@
                                                      -Description 'Should this resource be present or absent'
                 
             }
-New-xDscResource -Name MSFT_xADDomainTrust -Property $Properties.Values -Path . -ModuleName xActiveDirectory -FriendlyName xADDomainTrust -Force
+New-xDscResource -Name MSFT_msADDomainTrust -Property $Properties.Values -Path . -ModuleName xActiveDirectory -FriendlyName msADDomainTrust -Force
