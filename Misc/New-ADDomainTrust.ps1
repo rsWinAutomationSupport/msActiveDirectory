@@ -13,4 +13,4 @@ $Properties = @{
                                                      -Description 'Should this resource be present or absent'
                 
             }
-New-xDscResource -Name MSFT_msADDomainTrust -Property $Properties.Values -Path . -ModuleName xActiveDirectory -FriendlyName msADDomainTrust -Force
+New-xDscResource -Name MSFT_msADDomainTrust -Property $Properties.Values -Path . -ModuleName msActiveDirectory -FriendlyName msADDomainTrust -Force
